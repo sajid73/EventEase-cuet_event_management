@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class AdminIdentityVerificationPage extends StatelessWidget {
+  const AdminIdentityVerificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,9 +9,9 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Text(
-              'Home Screen',
+              'Please proof your identity',
               style: TextStyle(fontSize: 30),
             ),
           ],

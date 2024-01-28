@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "556153765882",
+    "project_id": "event-management-cuet",
+    "storage_bucket": "event-management-cuet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556153765882:android:0eca2e7d7c0b412cda6e43",
+        "android_client_info": {
+          "package_name": "com.example.cuet_event_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOMqlASGKZFCRyPufSLViO8GG-5A1hFOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
