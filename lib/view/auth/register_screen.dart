@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum RoleCharacter { organizer, participant }
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -12,6 +14,7 @@ class RegisterScreenState extends State<RegisterScreen>
   TextEditingController userNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  RoleCharacter? _character = RoleCharacter.participant;
   bool organizer = false;
   bool participants = false;
   bool agreeCheckbox = false;
@@ -121,25 +124,53 @@ class RegisterScreenState extends State<RegisterScreen>
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Text("Organizer"),
-            Checkbox(
-              value: organizer,
-              onChanged: (value) {
-                setState(() {
-                  organizer = value ?? false;
-                });
-              },
+          children: <Widget>[
+            Expanded(
+              child: ListTile(
+                title: const Text('Organizer'),
+                leading: Radio(
+                  value: RoleCharacter.organizer,
+                  groupValue: _character,
+                  onChanged: (value) {
+                    setState(() {
+                      _character = value;
+                    });
+                  },
+                ),
+              ),
             ),
-            const Text("Participants"),
-            Checkbox(
-              value: participants,
-              onChanged: (value) {
-                setState(() {
-                  participants = value ?? false;
-                });
-              },
+            Expanded(
+              child: ListTile(
+                title: const Text('Participant'),
+                leading: Radio<RoleCharacter>(
+                  value: RoleCharacter.participant,
+                  groupValue: _character,
+                  onChanged: (value) {
+                    setState(() {
+                      _character = value;
+                    });
+                  },
+                ),
+              ),
             ),
+            // Checkbox(
+            //   value: organizer,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       organizer = value ?? false;
+            //     });
+            //   },
+            // ),
+            // const Text("Organizer"),
+            // Checkbox(
+            //   value: participants,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       participants = value ?? false;
+            //     });
+            //   },
+            // ),
+            // const Text("Participants"),
           ],
         ),
       ],
@@ -149,8 +180,6 @@ class RegisterScreenState extends State<RegisterScreen>
   Widget _buildAgreeCheckbox(BuildContext context) {
     return Row(
       children: [
-        const Text(
-            "I agree with the terms and conditions by creating\nan account"),
         Checkbox(
           value: agreeCheckbox,
           onChanged: (value) {
@@ -159,6 +188,8 @@ class RegisterScreenState extends State<RegisterScreen>
             });
           },
         ),
+        const Text(
+            "I agree with the terms and conditions by creating\nan account"),
       ],
     );
   }

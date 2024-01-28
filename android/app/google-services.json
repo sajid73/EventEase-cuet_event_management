@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "584865930409",
+    "project_id": "cems-56f65",
+    "storage_bucket": "cems-56f65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584865930409:android:c7d64b2f0b3ffdf86bddb8",
+        "android_client_info": {
+          "package_name": "com.example.cuet_event_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_bdERB3mAsQTuYs7GDiLKHIz9QCSsRME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => TabControlScreen()));
+          context, MaterialPageRoute(builder: (context) => const TabControlScreen()));
     });
 
     return Scaffold(

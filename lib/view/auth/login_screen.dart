@@ -12,7 +12,7 @@ class LoginScreenState extends State<LoginScreen>
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool stayLoggedIn = false;
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   bool get wantKeepAlive => true;
