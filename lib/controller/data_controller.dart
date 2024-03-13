@@ -23,25 +23,6 @@ class DataController extends GetxController {
 
   var isEventsLoading = false.obs;
 
-  var isMessageSending = false.obs;
-  sendMessageToFirebase(
-      {Map<String, dynamic>? data, String? lastMessage, String? grouid}) async {
-    isMessageSending(true);
-
-    await FirebaseFirestore.instance
-        .collection('chats')
-        .doc(grouid)
-        .collection('chatroom')
-        .add(data!);
-    await FirebaseFirestore.instance.collection('chats').doc(grouid).set({
-      'lastMessage': lastMessage,
-      'groupId': grouid,
-      'group': grouid!.split('-'),
-    }, SetOptions(merge: true));
-
-    isMessageSending(false);
-  }
-
   createNotification(String recUid) {
     FirebaseFirestore.instance
         .collection('notifications')
@@ -74,7 +55,6 @@ class DataController extends GetxController {
     await taskSnapshot.ref.getDownloadURL().then((value) {
       fileUrl = value;
     });
-    print("Url $fileUrl");
     return fileUrl;
   }
 
@@ -88,8 +68,6 @@ class DataController extends GetxController {
     await taskSnapshot.ref.getDownloadURL().then((value) {
       fileUrl = value;
     });
-
-    print("Thumbnail $fileUrl");
 
     return fileUrl;
   }

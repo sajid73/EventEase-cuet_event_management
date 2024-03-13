@@ -288,21 +288,6 @@ class _LoginViewState extends State<LoginView> {
           SizedBox(
             height: Get.height * 0.01,
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // socialAppsIcons(
-              //     text: 'assets/fb.png',
-              //     onPressed: () {
-              //       Get.to(() => ProfileScreen());
-              //     }),
-              // socialAppsIcons(
-              //     text: 'assets/google.png',
-              //     onPressed: () {
-              //       authController.signInWithGoogle();
-              //     }),
-            ],
-          )
         ],
       ),
     );
@@ -398,13 +383,6 @@ class _LoginViewState extends State<LoginView> {
         ),
         SizedBox(
           height: Get.height * 0.01,
-        ),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // socialAppsIcons(text: 'assets/fb.png', onPressed: () {}),
-            // socialAppsIcons(text: 'assets/google.png', onPressed: () {}),
-          ],
         ),
         SizedBox(
           height: Get.height * 0.02,

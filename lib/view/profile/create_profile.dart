@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../controller/auth_controller.dart';
 import '../../utils/app_color.dart';
@@ -34,6 +37,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController dob = TextEditingController();
 
+  imagePickDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Choose Image Source'),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.camera);
+                  if (image != null) {
+                    profileImage = File(image.path);
+                    setState(() {});
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Icon(
+                  Icons.camera_alt,
+                  size: 30,
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              InkWell(
+                onTap: () async {
+                  final ImagePicker picker0 = ImagePicker();
+                  final XFile? image = await picker0.pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (image != null) {
+                    profileImage = File(image.path);
+                    setState(() {});
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                },
+                child: Image.asset(
+                  'assets/gallary.png',
+                  width: 25,
+                  height: 25,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  File? profileImage;
+
+  int selectedRadio = 0;
+  int selectedRole = 0;
+
   void setSelectedRadio(int val) {
     setState(() {
       selectedRadio = val;
@@ -45,9 +108,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       selectedRole = val;
     });
   }
-
-  int selectedRadio = 0;
-  int selectedRole = 0;
 
   AuthController? authController;
 
@@ -69,11 +129,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: Get.width * 0.2,
+                  height: Get.width * 0.1,
                 ),
-                const Text(
-                  'Update Profile',
-                  style: TextStyle(fontSize: 30),
+                InkWell(
+                  onTap: () {
+                    imagePickDialog();
+                  },
+                  child: Container(
+                    width: 120,
+                    height: 120,
+                    margin: const EdgeInsets.only(top: 35),
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: AppColors.blue,
+                      borderRadius: BorderRadius.circular(70),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xff7DDCFB),
+                          Color(0xffBC67F2),
+                          Color(0xffACF6AF),
+                          Color(0xffF95549),
+                        ],
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(70),
+                          ),
+                          child: profileImage == null
+                              ? const CircleAvatar(
+                                  radius: 56,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.blue,
+                                    size: 50,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 56,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: FileImage(
+                                    profileImage!,
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: Get.width * 0.1,
@@ -135,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'assets/calender.png',
                         cacheHeight: 20,
                       ),
-                      hintText: 'Date Of Birth',
+                      hintText: 'Date Of Birht',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
@@ -149,7 +256,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: Text(
                         'Male',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 19,
                           fontWeight: FontWeight.w400,
                           color: AppColors.genderTextColor,
                         ),
@@ -165,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: Text(
                           'Female',
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 19,
                             fontWeight: FontWeight.w400,
                             color: AppColors.genderTextColor,
                           ),
@@ -246,7 +353,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                     : Container(
                         height: 50,
-                        margin: EdgeInsets.only(top: Get.height * 0.01),
+                        margin: EdgeInsets.only(top: Get.height * 0.02),
                         width: Get.width,
                         child: elevatedButton(
                           text: 'Save',
@@ -263,7 +370,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               return null;
                             }
 
+                            if (profileImage == null) {
+                              Get.snackbar('Warning', "Image is required.",
+                                  colorText: Colors.white,
+                                  backgroundColor: Colors.blue);
+                              return null;
+                            }
+
                             authController!.isProfileInformationLoading(true);
+
+                            String imageUrl = await authController!
+                                .uploadImageToFirebaseStorage(profileImage!);
 
                             String role = "";
                             switch (selectedRole) {
@@ -281,6 +398,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }
 
                             authController!.uploadProfileData(
+                                imageUrl,
                                 firstNameController.text.trim(),
                                 lastNameController.text.trim(),
                                 mobileNumberController.text.trim(),

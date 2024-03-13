@@ -14,6 +14,7 @@ void main() async {
       appId: "com.example.cuet_event_management",
       messagingSenderId: "556153765882",
       projectId: "event-management-cuet",
+      storageBucket: "gs://event-management-cuet.appspot.com",
     ),
   );
   Get.put(DataController());

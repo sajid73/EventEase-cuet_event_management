@@ -119,10 +119,6 @@ class _CreateEventViewState extends State<CreateEventView> {
 
   List<EventMediaModel> media = [];
 
-  // List<File> media = [];
-  // List thumbnail = [];
-  // List<bool> isImage = [];
-
   @override
   void initState() {
     // TODO: implement initState
@@ -207,12 +203,11 @@ class _CreateEventViewState extends State<CreateEventView> {
                   child: DottedBorder(
                     color: AppColors.border,
                     strokeWidth: 1.5,
-                    dashPattern: [6, 6],
+                    dashPattern: const [6, 6],
                     child: Container(
                       alignment: Alignment.center,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             height: Get.height * 0.05,
