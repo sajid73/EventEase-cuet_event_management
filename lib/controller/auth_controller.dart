@@ -30,8 +30,8 @@ class AuthController extends GetxController {
       String? role = userDoc.get('role');
 
       // Check the role and navigate accordingly
-      if (role == "Administration") {
-        Get.to(() => AdminIdentityVerificationPage());
+      if (role == "Administrator") {
+        Get.to(() => const AdminIdentityVerificationPage());
       } else {
         Get.to(() => const BottomBarView());
       }
@@ -85,6 +85,20 @@ class AuthController extends GetxController {
   }
 
   var isProfileInformationLoading = false.obs;
+
+  Future<String> getUserRole() async {
+    String? role;
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .get();
+      role = userDoc.get('role');
+    } catch (e) {
+      print("Error fetching user role: $e");
+    }
+    return role ?? '';
+  }
 
   Future<String> uploadImageToFirebaseStorage(File image) async {
     String imageUrl = '';

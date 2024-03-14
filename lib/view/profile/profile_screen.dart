@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/data_controller.dart';
-import '../../model/ticket_model.dart';
 import '../../utils/app_color.dart';
-import '../../widgets/my_widgets.dart';
 
 class OnlyProfileScreen extends StatefulWidget {
   const OnlyProfileScreen({super.key});
@@ -21,47 +19,12 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
-
-  List<Ticketdetail> ticket = [
-    Ticketdetail(
-        color: const Color(0xffADD8E6),
-        date: 'Feb 28',
-        range: '10-11',
-        name: 'BRUNCH',
-        img1: 'assets/#1.png',
-        img2: 'assets/#2.png',
-        img3: 'assets/#3.png',
-        img4: 'assets/#1.png',
-        img5: 'assets/#3.png',
-        img6: 'assets/#3.png',
-        heart: 'assets/heart.png',
-        count: '5.2k',
-        message: 'assets/message.png',
-        rate: '140',
-        share: 'assets/send.png'),
-    Ticketdetail(
-        color: const Color(0xff0000FF),
-        date: 'may 14',
-        range: '6-7:30',
-        name: 'BRUNCH',
-        img1: 'assets/#1.png',
-        img2: 'assets/#2.png',
-        img3: 'assets/#3.png',
-        img4: 'assets/#1.png',
-        img5: 'assets/#3.png',
-        img6: 'assets/#3.png',
-        heart: 'assets/heart2.png',
-        count: '5.2k',
-        message: 'assets/message.png',
-        rate: '150',
-        share: 'assets/send.png'),
-  ];
+  TextEditingController userRole = TextEditingController();
 
   bool isNotEditable = true;
 
   DataController? dataController;
 
-  int? followers = 0, following = 0;
   String image = '';
 
   @override
@@ -71,6 +34,7 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
 
     firstNameController.text = dataController!.myDocument!.get('first');
     lastNameController.text = dataController!.myDocument!.get('last');
+    userRole.text = dataController!.myDocument!.get('role');
 
     try {
       descriptionController.text = dataController!.myDocument!.get('desc');
@@ -88,18 +52,6 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
       locationController.text = dataController!.myDocument!.get('location');
     } catch (e) {
       locationController.text = '';
-    }
-
-    try {
-      followers = dataController!.myDocument!.get('followers').length;
-    } catch (e) {
-      followers = 0;
-    }
-
-    try {
-      following = dataController!.myDocument!.get('following').length;
-    } catch (e) {
-      following = 0;
     }
   }
 
@@ -191,19 +143,12 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(70),
                               ),
-                              child: image.isEmpty
-                                  ? const CircleAvatar(
-                                      radius: 56,
-                                      backgroundColor: Colors.white,
-                                      backgroundImage: AssetImage(
-                                        'assets/profile.png',
-                                      ))
-                                  : CircleAvatar(
-                                      radius: 56,
-                                      backgroundColor: Colors.white,
-                                      backgroundImage: NetworkImage(
-                                        image,
-                                      )),
+                              child: CircleAvatar(
+                                  radius: 56,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: NetworkImage(
+                                    image,
+                                  )),
                             ),
                           ],
                         ),
@@ -295,151 +240,7 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
                             ),
                           ),
                     const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "$followers",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: -0.3,
-                                ),
-                              ),
-                              Text(
-                                "Followers",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  letterSpacing: -0.3,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 1,
-                            height: 35,
-                            color: const Color(0xff918F8F).withOpacity(0.5),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "$following",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: -0.3),
-                              ),
-                              Text(
-                                "Following",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  letterSpacing: -0.3,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40,
-                            width: screenwidth * 0.25,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15),
-                                    ),
-                                  ),
-                                  backgroundColor: AppColors.blue),
-                              onPressed: () {},
-                              child: Text(
-                                'Follow',
-                                style: TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 20),
-                              width: 53,
-                              height: 53,
-                              child: Image.asset(
-                                'assets/Group 26.png',
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 15),
-                              width: 53,
-                              height: 53,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(36),
-                                color: Colors.white,
-                              ),
-                              child: const Image(
-                                  image: AssetImage('assets/Ellipse 984.png')),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 15),
-                              width: 53,
-                              height: 53,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(36),
-                                color: Colors.white,
-                              ),
-                              child: const Image(
-                                  image: AssetImage('assets/Ellipse 985.png')),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 15),
-                              width: 53,
-                              height: 53,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(36),
-                                color: Colors.white,
-                              ),
-                              child: const Image(
-                                  image: AssetImage('assets/Ellipse 986.png')),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 30, top: 10),
-                          child: const Text(
-                            'NEW',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
+                      height: 80,
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -491,18 +292,14 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
                               child: TabBarView(
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: <Widget>[
-                                  ListView.builder(
+                                  if (userRole.text == "Organizer")
+                                    ListView.builder(
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       scrollDirection: Axis.vertical,
-                                      itemCount: ticket.length,
                                       itemBuilder: (context, index) {
-                                        return
-                                            // InkWell(onTap: (){
-                                            // Get.to(()=>Detailproduct(record: popular[index],));
-                                            // },
-                                            Container(
+                                        return Container(
                                           margin:
                                               const EdgeInsets.only(top: 20),
                                           width: 388,
@@ -525,209 +322,54 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
                                           child: Container(
                                             margin: const EdgeInsets.only(
                                                 top: 10, left: 10),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  width: 40,
-                                                  height: 41,
-                                                  padding:
-                                                      const EdgeInsets.all(1),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      6,
-                                                    ),
-                                                    border: Border.all(
-                                                      color:
-                                                          ticket[index].color!,
-                                                    ),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      myText(
-                                                        text:
-                                                            ticket[index].range,
-                                                        style: const TextStyle(
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      myText(
-                                                        text:
-                                                            ticket[index].date,
-                                                        style: const TextStyle(
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      ticket[index].name,
-                                                      style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .img1),
-                                                          width: 27,
-                                                          height: 27,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 1,
-                                                        ),
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .img2),
-                                                          width: 27,
-                                                          height: 27,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 1,
-                                                        ),
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .img3),
-                                                          width: 27,
-                                                          height: 27,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 1,
-                                                        ),
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .img4),
-                                                          width: 27,
-                                                          height: 27,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 1,
-                                                        ),
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .img5),
-                                                          width: 27,
-                                                          height: 27,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 1,
-                                                        ),
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .img6),
-                                                          width: 27,
-                                                          height: 27,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 30,
-                                                          child: Image.asset(
-                                                            ticket[index].heart,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 1,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 10),
-                                                          child: Text(
-                                                            ticket[index].count,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 23,
-                                                        ),
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .message),
-                                                          width: 16,
-                                                          height: 16,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 10),
-                                                          child: Text(
-                                                            ticket[index].rate,
-                                                            style: const TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 27,
-                                                        ),
-                                                        Image(
-                                                          image: AssetImage(
-                                                              ticket[index]
-                                                                  .share),
-                                                          width: 15,
-                                                          height: 15,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                            // Add your content here for the Organizer role
                                           ),
                                         );
-                                      }),
-                                  const Center(
-                                    child: Text('Tab 2',
-                                        style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
+                                      },
+                                    )
+                                  else
+                                    const Center(
+                                      child: Text('Tab 1 for Participant'),
+                                    ),
+                                  if (userRole.text == "Participant")
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          margin:
+                                              const EdgeInsets.only(top: 20),
+                                          width: 388,
+                                          height: 130,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.15),
+                                                spreadRadius: 2,
+                                                blurRadius: 3,
+                                                offset: const Offset(0,
+                                                    0), // changes position of shadow
+                                              ),
+                                            ],
+                                          ),
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 10, left: 10),
+                                            // Add your content here for the Participant role
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  else
+                                    const Center(
+                                      child: Text('Tab 2 for Organizer'),
+                                    ),
                                 ],
                               ),
                             ),
