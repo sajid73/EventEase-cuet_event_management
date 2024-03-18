@@ -9,6 +9,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as Path;
+import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class DataController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -23,27 +25,64 @@ class DataController extends GetxController {
 
   var isEventsLoading = false.obs;
 
-  createNotification(String recUid) {
+  Future<void> fetchCurrentUserDocument() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      myDocument = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
+    }
+  }
+
+  getJoinedEvents() {
     FirebaseFirestore.instance
-        .collection('notifications')
-        .doc(recUid)
-        .collection('myNotifications')
-        .add({
-      'message': "Send you a message.",
-      'image': myDocument!.get('image'),
-      'name': myDocument!.get('first') + " " + myDocument!.get('last'),
-      'time': DateTime.now()
+        .collection('events')
+        .where('joined', arrayContains: auth.currentUser!.uid)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      joinedEvents.value = querySnapshot.docs;
     });
   }
 
-  getMyDocument() {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(auth.currentUser!.uid)
-        .snapshots()
-        .listen((event) {
-      myDocument = event;
-    });
+  Future<void> generateTicket(DocumentSnapshot event) async {
+    print("Ticket generated");
+    // Create a new PDF document
+    PdfDocument document = PdfDocument();
+
+    // Add a new page to the document
+    PdfPage page = document.pages.add();
+
+    // Create a new PDF graphics instance
+    PdfGraphics graphics = page.graphics;
+
+    // Set the font
+    PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 12);
+
+    // Draw the event details
+    graphics.drawString(
+      'Event Name: ${event.get('event_name')}',
+      font,
+      bounds: Rect.fromLTWH(0, 0, page.getClientSize().width, 20),
+    );
+    graphics.drawString(
+      'Event Date: ${event.get('date').toString()}',
+      font,
+      bounds: Rect.fromLTWH(0, 20, page.getClientSize().width, 20),
+    );
+    graphics.drawString(
+      'Event Tag: ${event.get('start_time')}',
+      font,
+      bounds: Rect.fromLTWH(0, 40, page.getClientSize().width, 20),
+    );
+
+    // Save the PDF document to a file
+    final output = await getTemporaryDirectory();
+    final file = File('${output.path}/ticket.pdf');
+    await file.writeAsBytes(await document.save());
+
+    // Dispose the document
+    document.dispose();
   }
 
   Future<String> uploadImageToFirebase(File file) async {
@@ -92,9 +131,9 @@ class DataController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getMyDocument();
     getUsers();
     getEvents();
+    getJoinedEvents();
   }
 
   var isUsersLoading = false.obs;

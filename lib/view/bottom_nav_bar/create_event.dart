@@ -27,7 +27,7 @@ class _CreateEventViewState extends State<CreateEventView> {
   TextEditingController timeController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController locationController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
+
   TextEditingController descriptionController = TextEditingController();
   TextEditingController tagsController = TextEditingController();
   TextEditingController maxEntries = TextEditingController();
@@ -44,7 +44,6 @@ class _CreateEventViewState extends State<CreateEventView> {
     timeController.clear();
     titleController.clear();
     locationController.clear();
-    priceController.clear();
     descriptionController.clear();
     tagsController.clear();
     maxEntries.clear();
@@ -862,21 +861,6 @@ class _CreateEventViewState extends State<CreateEventView> {
                         }).toList(),
                       ),
                     ),
-                    iconTitleContainer(
-                        path: 'assets/dollarLogo.png',
-                        text: 'price',
-                        type: TextInputType.number,
-                        height: 40,
-                        controller: priceController,
-                        onPress: () {},
-                        validator: (String input) {
-                          if (input.isEmpty) {
-                            Get.snackbar('Opps', "Price is required.",
-                                colorText: Colors.white,
-                                backgroundColor: Colors.blue);
-                            return '';
-                          }
-                        })
                   ],
                 ),
                 SizedBox(
@@ -963,7 +947,6 @@ class _CreateEventViewState extends State<CreateEventView> {
                                 'joined': [
                                   FirebaseAuth.instance.currentUser!.uid
                                 ],
-                                'price': priceController.text,
                                 'media': mediaUrls,
                                 'uid': FirebaseAuth.instance.currentUser!.uid,
                                 'tags': tags,

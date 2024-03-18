@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cuet_event_management/view/auth/login_signup.dart';
 import 'package:cuet_event_management/view/bottom_nav_bar/bottom_bar_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -81,6 +82,20 @@ class AuthController extends GetxController {
       Get.snackbar('Email Sent', 'We have sent password reset email');
     }).catchError((e) {
       print("Error in sending password reset email is $e");
+    });
+  }
+
+  void logout() {
+    auth.signOut();
+    Get.offAll(() => const LoginView());
+  }
+
+  void joinEvent(String eventId) async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    // Update the user's document with the joined event UID
+    await FirebaseFirestore.instance.collection('users').doc(uid).update({
+      'joinedEvents': FieldValue.arrayUnion([eventId]),
     });
   }
 

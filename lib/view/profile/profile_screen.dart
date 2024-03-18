@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cuet_event_management/widgets/ticket_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,28 +32,32 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
   initState() {
     super.initState();
     dataController = Get.find<DataController>();
+    dataController!.fetchCurrentUserDocument().then((_) {
+      setState(() {
+        firstNameController.text = dataController!.myDocument!.get('first');
+        lastNameController.text = dataController!.myDocument!.get('last');
+        userRole.text = dataController!.myDocument!.get('role');
 
-    firstNameController.text = dataController!.myDocument!.get('first');
-    lastNameController.text = dataController!.myDocument!.get('last');
-    userRole.text = dataController!.myDocument!.get('role');
+        // Additional fields
+        try {
+          descriptionController.text = dataController!.myDocument!.get('desc');
+        } catch (e) {
+          descriptionController.text = '';
+        }
 
-    try {
-      descriptionController.text = dataController!.myDocument!.get('desc');
-    } catch (e) {
-      descriptionController.text = '';
-    }
+        try {
+          image = dataController!.myDocument!.get('image');
+        } catch (e) {
+          image = '';
+        }
 
-    try {
-      image = dataController!.myDocument!.get('image');
-    } catch (e) {
-      image = '';
-    }
-
-    try {
-      locationController.text = dataController!.myDocument!.get('location');
-    } catch (e) {
-      locationController.text = '';
-    }
+        try {
+          locationController.text = dataController!.myDocument!.get('location');
+        } catch (e) {
+          locationController.text = '';
+        }
+      });
+    });
   }
 
   @override
@@ -328,9 +333,7 @@ class _OnlyProfileScreenState extends State<OnlyProfileScreen> {
                                       },
                                     )
                                   else
-                                    const Center(
-                                      child: Text('Tab 1 for Participant'),
-                                    ),
+                                    TicketPage(),
                                   if (userRole.text == "Participant")
                                     ListView.builder(
                                       shrinkWrap: true,

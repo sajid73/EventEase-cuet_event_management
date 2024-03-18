@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/data_controller.dart';
-import '../../widgets/custom_app_bar.dart';
 import '../../widgets/events_feed_widget.dart';
 
 class AdminIdentityVerificationPage extends StatefulWidget {
@@ -31,9 +30,11 @@ class _AdminIdentityVerificationPageState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomAppBar(),
+                SizedBox(
+                  height: Get.height * 0.05,
+                ),
                 Text(
-                  "What Going on today",
+                  "Please select the approvals",
                   style: GoogleFonts.raleway(
                       fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -41,11 +42,11 @@ class _AdminIdentityVerificationPageState
                   height: Get.height * 0.02,
                 ),
                 EventsFeed(),
-                Obx(() => dataController.isUsersLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : EventsIJoined())
+                // Obx(() => dataController.isUsersLoading.value
+                //     ? const Center(
+                //         child: CircularProgressIndicator(),
+                //       )
+                //     : EventsIJoined())
               ],
             ),
           ),

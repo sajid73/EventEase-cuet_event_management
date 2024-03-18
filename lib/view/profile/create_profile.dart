@@ -242,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'assets/calender.png',
                         cacheHeight: 20,
                       ),
-                      hintText: 'Date Of Birht',
+                      hintText: 'Date Of Birth',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
@@ -310,22 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               setSelectedRole(val!);
                             },
                           ),
-                          const SizedBox(height: 5), // Add a gap here
-                          RadioListTile(
-                            title: Text(
-                              'Administrator',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.genderTextColor,
-                              ),
-                            ),
-                            value: 1,
-                            groupValue: selectedRole,
-                            onChanged: (int? val) {
-                              setSelectedRole(val!);
-                            },
-                          ),
+
                           const SizedBox(height: 5), // Add a gap here
                           RadioListTile(
                             title: Text(
@@ -336,7 +321,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 color: AppColors.genderTextColor,
                               ),
                             ),
-                            value: 2,
+                            value: 1,
                             groupValue: selectedRole,
                             onChanged: (int? val) {
                               setSelectedRole(val!);
@@ -388,9 +373,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 role = "Organizer";
                                 break;
                               case 1:
-                                role = "Administrator";
-                                break;
-                              case 2:
                                 role = "Participant";
                                 break;
                               default:
