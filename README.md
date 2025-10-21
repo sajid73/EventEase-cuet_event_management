@@ -1,4 +1,4 @@
-# CUET Event Management
+# EventEase: CUET Event Management
 
 A Flutter app to create, discover, and manage events for the CUET community.
 
@@ -53,4 +53,5 @@ The app initializes Firebase in `lib/main.dart`. Before running:
 - The project uses GetX for state management and navigation (controllers live in `lib/controller/`).
 - Media upload uses Firebase Storage (see upload functions in `DataController`).
 - Newly created events are stored with `"approved": false` by default.
+
 - This workspace is intended to run inside the provided dev container (Ubuntu 24.04.2 LTS).
